@@ -6,9 +6,10 @@ Urutan prioritas. Satu item in-progress maksimal.
 - [x] Pa menjawab 6 keputusan terbuka (12 Agu 2026 — semua pakai rekomendasi, DEC-007..012)
 
 ## Fase 1 — MVP
-- [x] `supabase/seed.sql`: schema (12 tabel) + extension PostGIS/pgcrypto + RLS + seed config + trigger audit + guard status + 13 RPC + revoke akses langsung (SELESAI ditulis, BELUM dijalankan — menunggu Supabase project)
-- [ ] Setup Supabase project: Auth (email+password, confirm email off), Storage bucket privat `evidence` (butuh Pa: buat project + kirim URL/anon key + set secrets GH)
+- [x] `supabase/seed.sql`: schema (12 tabel) + extension PostGIS/pgcrypto + RLS + seed config + trigger audit + guard status + 13 RPC + revoke akses langsung (SELESAI ditulis — TINGGAL dijalankan Pa di SQL Editor)
+- [~] Setup Supabase project: AKTIF (rfdbclvvcqdgdvsogynp.supabase.co, confirm email off) — tersisa: jalankan seed.sql + bucket privat `evidence`
 - [x] Frontend scaffold: Vite + React + TS, routing, tema MD3 (design tokens PRD §11), layout responsive (sidebar/bottom-nav), auth shell, toast, halaman Beranda/Peta/Registrasi/Profil/Petugas — build verified
+- [ ] GH Pages deploy: CI di-trigger (build job) — halaman publik aktif setelah seed.sql jalan
 - [ ] Auth & profil: login, peran (warga/petugas/admin), lokasi GPS saat pendaftaran akun, status is_verified (shell sudah ada; lengkap saat Supabase aktif)
 - [ ] Registrasi keluarga multi-step (8 langkah: identitas → anggota → pekerjaan → aset → rumah → foto → dokumen → review)
 - [ ] RPC skor: recalc_scores (Welfare + Confidence) + score_snapshots
