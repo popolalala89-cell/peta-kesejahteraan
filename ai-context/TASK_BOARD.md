@@ -15,8 +15,7 @@ Urutan prioritas. Satu item in-progress maksimal.
 - [x] RPC skor: recalc_scores (Welfare + Confidence) + score_snapshots (sudah di seed.sql, verified lewat submit_verification AUTH_REQUIRED)
 - [ ] Pa jalankan `supabase/migrate_01_registrasi.sql` di SQL Editor + buat bucket privat `evidence` (Storage) + tes daftar keluarga dummy
 - [ ] Verifikasi tetangga: request + jawaban 4 pilihan + komentar
-- [ ] Voting komunitas: validasi radius + reputasi + anomali → ACTIVE/HELD
-- [ ] Dashboard petugas: officer_dashboard_priorities() + verifikasi lapangan + review dokumen + review HELD
+- [x] Voting komunitas: halaman Verifikasi (radius 2km + reputasi + anomali → ACTIVE/HELD) + dashboard petugas (prioritas, verifikasi lapangan, review HELD, validasi dokumen) — build verified, TINGGAL: Pa jalankan migrate_02 + tes 2 akun
 - [ ] Profil publik masked (#KD-xxxxx) + pemungutan suara + aggregasi RT
 - [ ] Dispute: file_dispute + resolve_dispute + alur investigasi
 - [ ] Audit log view (petugas/admin)

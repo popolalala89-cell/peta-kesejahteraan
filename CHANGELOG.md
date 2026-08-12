@@ -20,6 +20,18 @@
 - supabase/seed.sql (sedang disusun): schema + config + trigger + RLS + RPC.
 - Scaffold frontend Vite + React + TS (sedang disusun).
 
+## [1.4.0] — 2026-08-12
+
+### Added
+- `supabase/migrate_02_verifikasi.sql`: submit_verification v2 (GPS live per-vote + kolom `voter_lokasi` + larang SELF_VOTE) + RPC `get_nearby_households` (daftar keluarga radius 2 km) + `get_held_votes` + `get_unreviewed_documents`.
+- Halaman Verifikasi (warga): daftar keluarga di sekitar, jawab pertanyaan komunitas (dari config), komentar, hasil ACTIVE/HELD + pesan error ramah.
+- Dashboard Petugas lengkap: prioritas otomatis + tombol verifikasi lapangan (update reputasi verifier) + sahkan/buang suara HELD + validasi dokumen.
+- Menu "Verifikasi" di navigasi.
+
+### Notes
+- Wajib dijalankan Pa: `supabase/migrate_02_verifikasi.sql` (submit_verification v2 + 3 RPC baru).
+- Tes voting butuh ≥2 akun (owner tidak bisa vote rumah sendiri — SELF_VOTE by design).
+
 ## [1.3.0] — 2026-08-12
 
 ### Added
