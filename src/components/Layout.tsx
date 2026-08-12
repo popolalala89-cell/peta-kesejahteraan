@@ -5,6 +5,7 @@ import { useToast } from '../context/Toast'
 const MENU = [
   { to: '/', label: 'Beranda', ico: '🏠' },
   { to: '/peta', label: 'Peta', ico: '🗺️' },
+  { to: '/verifikasi', label: 'Verifikasi', ico: '🗳️' },
   { to: '/registrasi', label: 'Daftar Keluarga', ico: '📝' },
   { to: '/profil', label: 'Profil', ico: '👤' },
 ]

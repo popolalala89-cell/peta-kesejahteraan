@@ -56,6 +56,8 @@ export async function submitVerification(
   pertanyaan: string,
   jawaban: string,
   komentar?: string,
+  lat?: number,
+  lon?: number,
 ) {
   const { data, error } = await supabase!.rpc('submit_verification', {
     p_household: householdId,
@@ -63,9 +65,122 @@ export async function submitVerification(
     p_pertanyaan: pertanyaan,
     p_jawaban: jawaban,
     p_komentar: komentar ?? null,
+    p_lat: lat ?? null,
+    p_lon: lon ?? null,
   })
   if (error) throw error
-  return data as { ok: boolean; status: string; distance_m: number }
+  return data as {
+    ok: boolean
+    status: string
+    distance_m: number
+    radius_weight: number
+    rep_weight: number
+  }
+}
+
+export interface NearbyHousehold {
+  id: string
+  kode: string
+  rt: string | null
+  rw: string | null
+  kelurahan: string | null
+  status: string
+  welfare_score: number | null
+  confidence_score: number | null
+  jarak_m: number
+  jumlah_vote: number
+}
+
+export async function nearbyHouseholds(
+  lat: number,
+  lon: number,
+  maxM = 2000,
+): Promise<NearbyHousehold[]> {
+  const { data, error } = await supabase!.rpc('get_nearby_households', {
+    p_lon: lon,
+    p_lat: lat,
+    p_max_m: maxM,
+  })
+  if (error) throw error
+  return (data ?? []) as NearbyHousehold[]
+}
+
+export interface HeldVote {
+  id: string
+  household_id: string
+  kode: string
+  verifier_nama: string
+  tipe: string
+  pertanyaan: string
+  jawaban: string
+  komentar: string | null
+  bobot_radius: number
+  bobot_reputasi: number
+  created_at: string
+  alasan: string
+}
+
+export async function heldVotes(): Promise<HeldVote[]> {
+  const { data, error } = await supabase!.rpc('get_held_votes')
+  if (error) throw error
+  return (data ?? []) as HeldVote[]
+}
+
+export interface UnreviewedDoc {
+  id: string
+  household_id: string
+  kode: string
+  jenis: string
+  storage_path: string
+  uploaded_at: string
+}
+
+export async function unreviewedDocuments(): Promise<UnreviewedDoc[]> {
+  const { data, error } = await supabase!.rpc('get_unreviewed_documents')
+  if (error) throw error
+  return (data ?? []) as UnreviewedDoc[]
+}
+
+export async function fieldVerify(
+  householdId: string,
+  hasil: boolean,
+  catatan?: string,
+) {
+  const { data, error } = await supabase!.rpc('field_verify', {
+    p_household: householdId,
+    p_hasil: hasil,
+    p_catatan: catatan ?? null,
+  })
+  if (error) throw error
+  return data
+}
+
+export async function reviewHeldVote(verificationId: string, keputusan: 'ACTIVE' | 'DISCARDED') {
+  const { data, error } = await supabase!.rpc('review_held_vote', {
+    p_verification: verificationId,
+    p_keputusan: keputusan,
+  })
+  if (error) throw error
+  return data
+}
+
+export async function reviewDocument(documentId: string, status: 'VERIFIED' | 'REJECTED') {
+  const { data, error } = await supabase!.rpc('review_document', {
+    p_document: documentId,
+    p_status: status,
+  })
+  if (error) throw error
+  return data
+}
+
+export async function getConfigValue(key: string): Promise<unknown> {
+  const { data, error } = await supabase!
+    .from('config')
+    .select('value')
+    .eq('key', key)
+    .maybeSingle()
+  if (error) throw error
+  return data?.value ?? null
 }
 
 export async function fileDispute(

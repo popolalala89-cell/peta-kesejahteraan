@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Login from './pages/Login'
 import Beranda from './pages/Beranda'
 import Peta from './pages/Peta'
+import Verifikasi from './pages/Verifikasi'
 import Registrasi from './pages/Registrasi'
 import Profil from './pages/Profil'
 import Petugas from './pages/Petugas'
@@ -29,6 +30,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Beranda />} />
         <Route path="/peta" element={<Peta />} />
+        <Route path="/verifikasi" element={<Verifikasi />} />
         <Route path="/registrasi" element={<Registrasi />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/petugas" element={<Petugas />} />
