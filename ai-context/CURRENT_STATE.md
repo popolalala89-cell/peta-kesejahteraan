@@ -1,30 +1,37 @@
 # CURRENT_STATE — Peta Kesejahteraan
 
-Update terakhir: 12 Agustus 2026
+Update terakhir: 12 Agustus 2026 (scaffold selesai)
 
 ## Status keseluruhan
-- 🟡 Fase perencanaan — BELUM ada kode.
-- PRD v1.0 selesai dan disetujui sebagai kontrak.
-- ai-context dibuat (7 file + CHANGELOG).
-
-## Blocker (wajib dijawab sebelum eksekusi)
-1. Cakupan pilot: RT/RW mana? Berapa keluarga?
-2. Siapa petugasnya (RT/RW/kelurahan/karang taruna)?
-3. NIK: cukup hash + cek manual petugas di Fase 1?
-4. Kalibrasi threshold Welfare Score — pakai bobot default PRD §5.1?
-5. Moderasi komentar: petugas atau admin?
-6. Butuh mode offline (sinyal di lokasi pilot)?
+- 🟢 Keputusan terbuka SUDAH dijawab (DEC-007..013).
+- 🟢 supabase/seed.sql SELESAI ditulis (belum dijalankan — menunggu Supabase project).
+- 🟢 Scaffold frontend SELESAI + build verified (tsc 0 error, vite build OK).
+- 🔴 Blocker: belum ada Supabase project aktif. Butuh Pa: buat project → kirim Project URL + anon key → set secrets GH (SUPABASE_URL, ANON_KEY) → jalankan seed.sql.
 
 ## Sedang dikerjakan
-- (tidak ada — menunggu jawaban keputusan terbuka)
+- (menunggu Supabase project dari Pa)
 
 ## Yang sudah selesai
-- [x] Konsep Pa (database warga → sistem bukti + verifikasi komunitas) — 12 Agu 2026
-- [x] PRD v1.0 (PRD.md)
-- [x] ai-context setup (AGENTS, CURRENT_STATE, PROJECT_MEMORY, TASK_BOARD, DECISIONS, ERROR_HISTORY, LESSONS_LEARNED)
-- [x] CHANGELOG.md
+- [x] Konsep Pa — 12 Agu 2026
+- [x] PRD v1.0 (termasuk perbaikan arah skala Welfare, DEC-013)
+- [x] ai-context (7 file) + CHANGELOG
 - [x] Repo GitHub: popolalala89-cell/peta-kesejahteraan (SSH, main)
+- [x] 6 keputusan terbuka dijawab (DEC-007..012)
+- [x] supabase/seed.sql: schema 12 tabel + config seed + trigger audit + guard status + RLS + 13 RPC + revoke akses langsung
+- [x] Scaffold frontend: Vite 8 + React 19 + TS, tema MD3, layout sidebar/bottom-nav, auth login/daftar, halaman Beranda/Peta/Registrasi/Profil/Petugas, toast
+- [x] Workflow GH Pages + README + .env.example + favicon
+- [x] npm run build verified
+
+## Langkah berikutnya (saat Supabase project siap)
+1. Pa buat project Supabase baru → kirim Project URL + anon key.
+2. Jalankan supabase/seed.sql di SQL Editor.
+3. Matikan "Confirm email" di Authentication → Settings.
+4. Buat bucket privat `evidence` di Storage.
+5. Set secrets GH: SUPABASE_URL + ANON_KEY → CI deploy jalan otomatis.
+6. Signup akun pertama → set role admin via set_user_role / update profiles.
 
 ## Catatan teknis penting
-- Stack: React + TS + Vite + Supabase (Postgres/Auth/Storage/RLS), PostGIS untuk radius, deploy GH Pages (pola sekolah-sma: secrets SUPABASE_URL + ANON_KEY).
-- Schema SQL ada di PRD §9 — nanti dipindah ke supabase/seed.sql saat eksekusi.
+- Schema final: supabase/seed.sql (PRD §9 jadi referensi).
+- Arah Welfare: tinggi = mampu (DEC-013). Bobot/threshold di tabel config (DEC-003).
+- Voting: radius 100/500/2000m × reputasi verifier; suara mencurigakan → HELD.
+- Akses langsung ke verifications/anomaly_flags/audit_log/config di-revoke — semua lewat RPC.

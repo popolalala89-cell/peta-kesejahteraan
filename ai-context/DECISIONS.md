@@ -49,3 +49,55 @@ Format: DEC-XXX. Tambahkan entri baru saat ada keputusan arsitektur.
 - **Context:** PRD §6 L3 — anti foto lama dipakai ulang.
 - **Alternatives considered:** Percaya input warga; watermark server-side (bisa di-crop).
 - **Consequences:** Sedikit friction di upload (perlu metadata), tapi mencegah penyalahgunaan umum.
+
+## DEC-007 — Pilot: 1 RT, ±50–100 keluarga
+
+- **Date:** 2026-08-12
+- **Decision:** Uji coba dimulai dari 1 RT (sekitar 50–100 keluarga). RT spesifik belum ditentukan Pa — contoh dokumen memakai RT 03 / RW 02.
+- **Context:** Jawaban keputusan terbuka #1 (rekomendasi diterima).
+- **Alternatives considered:** Langsung skala kelurahan.
+- **Consequences:** Volume data kecil → mudah diaudit & dikalibrasi; struktur sudah siap skala karena berbasis Postgres.
+
+## DEC-008 — Petugas: 1–2 pengurus RT/RW + Pa admin
+
+- **Date:** 2026-08-12
+- **Decision:** Akun petugas dipegang 1–2 orang pengurus RT/RW. Pa = admin (kelola config & pengguna).
+- **Context:** Jawaban keputusan terbuka #2 (rekomendasi diterima).
+- **Consequences:** Pembagian akun awal dilakukan manual oleh admin; role petugas tidak bisa self-register.
+
+## DEC-009 — NIK: hash + verifikasi manual petugas (Fase 1)
+
+- **Date:** 2026-08-12
+- **Decision:** NIK disimpan sebagai hash (pgcrypto). Verifikasi keaslian dilakukan petugas secara manual saat field verification.
+- **Context:** Jawaban keputusan terbuka #3 (rekomendasi diterima). Belum ada sumber verifikasi NIK otomatis.
+- **Alternatives considered:** Integrasi Dukcapil (butuh MoU), plaintext + RLS.
+- **Consequences:** Dedupe keluarga via hash match; integrasi otomatis ditunda ke Fase 3.
+
+## DEC-010 — Bobot Welfare default dipakai, kalibrasi menyusul
+
+- **Date:** 2026-08-12
+- **Decision:** Bobot default PRD §5.1 (pendapatan 25%, pekerjaan 20%, tanggungan 15%, aset 15%, hunian 15%, akses dasar 10%) dipakai di Fase 1. Kalibrasi dilakukan setelah data pilot terkumpul (ubah tabel config, tanpa deploy).
+- **Context:** Jawaban keputusan terbuka #4 (rekomendasi diterima).
+- **Consequences:** Angka awal mungkin kurang presisi untuk daerah pilot — dikoreksi lewat config, dan setiap perubahan tercatat di audit_log.
+
+## DEC-011 — Moderasi komentar oleh petugas
+
+- **Date:** 2026-08-12
+- **Decision:** Komentar pada verifikasi tetangga dimoderasi petugas (bukan admin). Komentar bermasalah bisa dihapus/ditandai.
+- **Context:** Jawaban keputusan terbuka #5 (rekomendasi diterima).
+- **Consequences:** Petugas butuh UI daftar komentar pending; kolom status moderasi ditambahkan di tabel verifications.
+
+## DEC-012 — MVP online (tanpa mode offline)
+
+- **Date:** 2026-08-12
+- **Decision:** Fase 1 berjalan online (butuh internet). Mode offline tidak dikerjakan dulu.
+- **Context:** Jawaban keputusan terbuka #6 (rekomendasi diterima).
+- **Alternatives considered:** PWA + queue offline (kompleksitas tinggi).
+- **Consequences:** Kalau sinyal di lokasi pilot ternyata bermasalah, keputusan ini dievaluasi ulang (dicatat di CURRENT_STATE).
+
+## DEC-013 — Arah skala Welfare: semakin tinggi = semakin mampu
+
+- **Date:** 2026-08-12
+- **Decision:** Welfare Score 0–100 dengan arah: **semakin tinggi = semakin mampu** (band §5.3: 0–20 Sangat Rentan … 81–100 Relatif Mampu). Contoh di konsep awal ("welfare 82 = sangat rentan") tidak konsisten dengan band §22 konsep; diseragamkan ke band. Dashboard prioritas memakai "welfare RENDAH + confidence rendah" sebagai prioritas #1.
+- **Context:** Kontradiksi internal pada dokumen konsep (§22 vs §23) ditemukan saat implementasi.
+- **Consequences:** Semua komponen welfare (pendapatan, pekerjaan, tanggungan, aset, hunian, akses) diskor 0–100 dengan nilai tinggi = kondisi baik; map warna 🟢 untuk yang mampu.

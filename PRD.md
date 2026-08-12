@@ -136,12 +136,19 @@ Tiap komponen diskor 0–100 → rata-rata terbobot → **Welfare Score**.
 ### 5.4 Contoh output
 
 ```
-Welfare Score: 82/100 · Confidence: 93%
-→ Kondisinya sangat rentan DAN datanya kuat.
+Welfare Score: 18/100 · Confidence: 93%
+→ Kondisinya sangat rentan DAN datanya kuat → layak diproses bantuan.
 
-Welfare Score: 82/100 · Confidence: 37%
-→ Kemungkinan rentan, tapi data belum bisa dipercaya → masuk prioritas verifikasi petugas.
+Welfare Score: 18/100 · Confidence: 37%
+→ Kemungkinan sangat rentan, tapi data belum bisa dipercaya
+→ masuk prioritas verifikasi petugas (cek dulu sebelum keputusan).
 ```
+
+> **Arah skala (penting):** Welfare Score SEMAKIN TINGGI = semakin MAMPU
+> (81–100 Relatif Mampu, 0–20 Sangat Rentan — lihat band §5.3).
+> Contoh di konsep awal ("kerentanan ekonomi 82% = sangat rentan") memakai
+> arah terbalik; diseragamkan ke arah §5.3 agar konsisten dengan peta warna
+> (🟢 sejahtera di atas, 🔴 prioritas bantuan di bawah).
 
 ### 5.5 Aturan bobot voting
 
@@ -225,11 +232,11 @@ Suara ter-flag → **HELD** + notifikasi petugas. Tidak otomatis dibuang — pet
 ### 8.3 Dashboard prioritas petugas (auto-rank)
 
 RPC `officer_dashboard_priorities()` mengurutkan:
-1. Welfare tinggi + confidence rendah
-2. Welfare tinggi + banyak laporan terbuka
+1. Welfare RENDAH (sangat rentan) + confidence rendah — data lemah untuk kasus paling butuh
+2. Welfare rendah + banyak laporan terbuka
 3. Data berubah drastis (delta skor besar)
 4. Voting mencurigakan (HELD menumpuk)
-5. Data tidak konsisten (foto vs deskripsi, anomali flag)
+5. Data tidak konsisten (foto vs deskripsi, anomaly flags)
 6. Belum diverifikasi lama (> 90 hari)
 
 Tujuan: petugas tidak periksa 10.000 keluarga buta — sistem bilang "periksa 87 ini dulu".
