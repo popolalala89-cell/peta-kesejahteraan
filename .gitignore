@@ -1,0 +1,25 @@
+# Node / Vite
+node_modules/
+dist/
+build/
+*.local
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Supabase
+supabase/.temp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
