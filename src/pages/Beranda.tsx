@@ -1,8 +1,27 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/Auth'
+import { useToast } from '../context/Toast'
+import { verifyProfile } from '../lib/api'
 
 export default function Beranda() {
-  const { profile } = useAuth()
+  const { profile, refreshProfile } = useAuth()
+  const toast = useToast()
+  const [busy, setBusy] = useState(false)
+
+  const verifikasiAkunSendiri = async () => {
+    if (!profile) return
+    setBusy(true)
+    try {
+      await verifyProfile(profile.id)
+      toast.showToast('Akun terverifikasi. Selamat datang di komunitas verifikator!', 'success')
+      await refreshProfile()
+    } catch (err) {
+      toast.showToast(err instanceof Error ? err.message : 'Gagal verifikasi', 'error')
+    } finally {
+      setBusy(false)
+    }
+  }
 
   return (
     <>
@@ -25,6 +44,16 @@ export default function Beranda() {
           <p style={{ fontSize: 13, marginTop: 10 }}>
             Akun yang belum disetujui petugas belum bisa ikut verifikasi/voting.
           </p>
+        )}
+        {!profile?.is_verified && profile?.role !== 'warga' && (
+          <button
+            className="btn"
+            disabled={busy}
+            style={{ marginTop: 10 }}
+            onClick={() => void verifikasiAkunSendiri()}
+          >
+            {busy ? 'Memproses…' : '✔ Verifikasi akun ini (role petugas/admin)'}
+          </button>
         )}
       </div>
 

@@ -128,6 +128,12 @@ export async function getMyHousehold() {
   return data as Record<string, unknown> | null
 }
 
+export async function verifyProfile(userId: string) {
+  const { data, error } = await supabase!.rpc('verify_profile', { p_user: userId })
+  if (error) throw error
+  return data
+}
+
 export async function uploadEvidence(file: File, path: string) {
   const { data, error } = await supabase!.storage
     .from('evidence')
