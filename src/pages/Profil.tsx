@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { isSupabaseConfigured } from '../lib/supabase'
-import { getPublicHousehold } from '../lib/api'
+import { getMyHousehold, getPublicHousehold } from '../lib/api'
 import type { PublicHousehold } from '../lib/types'
 import { useToast } from '../context/Toast'
 
@@ -16,8 +16,16 @@ const INDIKATOR_LABEL: Record<string, string> = {
 export default function Profil() {
   const [id, setId] = useState('')
   const [hh, setHh] = useState<PublicHousehold | null>(null)
+  const [myHh, setMyHh] = useState<Record<string, unknown> | null>(null)
   const [busy, setBusy] = useState(false)
   const toast = useToast()
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    getMyHousehold()
+      .then(setMyHh)
+      .catch(() => setMyHh(null))
+  }, [])
 
   const cari = async () => {
     if (!isSupabaseConfigured) {
@@ -46,6 +54,25 @@ export default function Profil() {
       <p style={{ color: 'var(--on-surface-variant)' }}>
         Informasi ditampilkan ter-masking — identitas pribadi tidak dipublikasikan.
       </p>
+
+      {myHh && (
+        <div className="card" style={{ borderLeft: '4px solid var(--primary)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 style={{ margin: 0 }}>{String(myHh.kode ?? '')}</h2>
+            <span className="chip chip-primary">{String(myHh.status ?? '')}</span>
+          </div>
+          <p style={{ fontSize: 13, color: 'var(--on-surface-variant)' }}>
+            Keluarga Anda · {String(myHh.nama_kepala ?? '')}
+          </p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <span className="chip">Welfare: {String(myHh.welfare_score ?? '-')}</span>
+            <span className="chip">Confidence: {String(myHh.confidence_score ?? '-')}</span>
+            <span className="chip">
+              Anggota: {Array.isArray(myHh.anggota) ? (myHh.anggota as unknown[]).length : '-'}
+            </span>
+          </div>
+        </div>
+      )}
 
       <div className="card" style={{ display: 'flex', gap: 10 }}>
         <input

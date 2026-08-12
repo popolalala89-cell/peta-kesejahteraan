@@ -81,3 +81,57 @@ export async function fileDispute(
   if (error) throw error
   return data as string
 }
+
+// ── Registrasi keluarga (migrate_01) ──────────────────────────────────
+
+export interface PhotoUpload {
+  kategori: string
+  storage_path: string
+  taken_at: string
+  lat: number | null
+  lon: number | null
+}
+
+export interface RegisterPayload {
+  household: {
+    nama_kepala: string
+    no_kartu_keluarga?: string
+    alamat: string
+    rt?: string
+    rw?: string
+    kelurahan?: string
+    kecamatan?: string
+    lat: number
+    lon: number
+    telepon?: string
+    status_tempat_tinggal?: string
+    jumlah_anggota: number
+  }
+  members: Record<string, unknown>[]
+  house: Record<string, unknown>
+  assets: Record<string, unknown>[]
+  photos: PhotoUpload[]
+  documents: Record<string, unknown>[]
+}
+
+export async function registerHousehold(payload: RegisterPayload) {
+  const { data, error } = await supabase!.rpc('register_household', {
+    p_data: payload,
+  })
+  if (error) throw error
+  return data as { id: string; status: string }
+}
+
+export async function getMyHousehold() {
+  const { data, error } = await supabase!.rpc('get_my_household')
+  if (error) throw error
+  return data as Record<string, unknown> | null
+}
+
+export async function uploadEvidence(file: File, path: string) {
+  const { data, error } = await supabase!.storage
+    .from('evidence')
+    .upload(path, file, { cacheControl: '3600', upsert: true })
+  if (error) throw error
+  return data.path
+}
