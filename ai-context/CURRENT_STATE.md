@@ -23,6 +23,7 @@ Update terakhir: 12 Agustus 2026
 - [x] PRD v1.0 (PRD.md)
 - [x] ai-context setup (AGENTS, CURRENT_STATE, PROJECT_MEMORY, TASK_BOARD, DECISIONS, ERROR_HISTORY, LESSONS_LEARNED)
 - [x] CHANGELOG.md
+- [x] Repo GitHub: popolalala89-cell/peta-kesejahteraan (SSH, main)
 
 ## Catatan teknis penting
 - Stack: React + TS + Vite + Supabase (Postgres/Auth/Storage/RLS), PostGIS untuk radius, deploy GH Pages (pola sekolah-sma: secrets SUPABASE_URL + ANON_KEY).

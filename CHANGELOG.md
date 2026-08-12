@@ -8,4 +8,5 @@
 - CHANGELOG.md ini.
 
 ### Notes
+- Repo GitHub dibuat & push: https://github.com/popolalala89-cell/peta-kesejahteraan (SSH, branch main).
 - Belum ada kode. Menunggu jawaban 6 keputusan terbuka (CURRENT_STATE → Blocker) sebelum eksekusi MVP.
