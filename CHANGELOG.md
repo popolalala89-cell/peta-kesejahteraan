@@ -20,6 +20,17 @@
 - supabase/seed.sql (sedang disusun): schema + config + trigger + RLS + RPC.
 - Scaffold frontend Vite + React + TS (sedang disusun).
 
+## [1.3.0] — 2026-08-12
+
+### Added
+- `supabase/migrate_01_registrasi.sql`: RPC `register_household` (transaksi atomik: households + members + house_conditions + assets + evidence_photos + evidence_documents → status SUBMITTED → recalc_scores; anti duplikat keluarga aktif) + RPC `get_my_household`.
+- Form registrasi keluarga 8 langkah (Registrasi.tsx): identitas, anggota dinamis, aset, kondisi rumah, foto kamera wajib 5 kategori (upload ke bucket `evidence`, timestamp + GPS otomatis), dokumen opsional, review & kirim.
+- Halaman Profil: card "Keluarga Anda" (kode KD-xxxxx, status, welfare/confidence, jumlah anggota) dari get_my_household.
+
+### Notes
+- Wajib dijalankan Pa di SQL Editor: `supabase/migrate_01_registrasi.sql` (2 fungsi).
+- Bucket Storage privat `evidence` wajib dibuat sebelum upload foto jalan.
+
 ## [1.2.0] — 2026-08-12
 
 ### Added

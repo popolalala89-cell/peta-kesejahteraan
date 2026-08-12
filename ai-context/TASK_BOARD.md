@@ -11,8 +11,9 @@ Urutan prioritas. Satu item in-progress maksimal.
 - [x] Frontend scaffold: Vite + React + TS, routing, tema MD3 (design tokens PRD §11), layout responsive (sidebar/bottom-nav), auth shell, toast, halaman Beranda/Peta/Registrasi/Profil/Petugas — build verified
 - [ ] GH Pages deploy: CI di-trigger (build job) — halaman publik aktif setelah seed.sql jalan
 - [ ] Auth & profil: login, peran (warga/petugas/admin), lokasi GPS saat pendaftaran akun, status is_verified (shell sudah ada; lengkap saat Supabase aktif)
-- [ ] Registrasi keluarga multi-step (8 langkah: identitas → anggota → pekerjaan → aset → rumah → foto → dokumen → review)
-- [ ] RPC skor: recalc_scores (Welfare + Confidence) + score_snapshots
+- [x] Registrasi keluarga multi-step (8 langkah: identitas → anggota → aset → rumah → foto → dokumen → review) + RPC register_household/get_my_household (migrate_01_registrasi.sql) — build verified, TINGGAL: Pa jalankan migrate_01 + buat bucket `evidence` + tes
+- [x] RPC skor: recalc_scores (Welfare + Confidence) + score_snapshots (sudah di seed.sql, verified lewat submit_verification AUTH_REQUIRED)
+- [ ] Pa jalankan `supabase/migrate_01_registrasi.sql` di SQL Editor + buat bucket privat `evidence` (Storage) + tes daftar keluarga dummy
 - [ ] Verifikasi tetangga: request + jawaban 4 pilihan + komentar
 - [ ] Voting komunitas: validasi radius + reputasi + anomali → ACTIVE/HELD
 - [ ] Dashboard petugas: officer_dashboard_priorities() + verifikasi lapangan + review dokumen + review HELD
