@@ -16,6 +16,7 @@ Urutan prioritas. Satu item in-progress maksimal.
 - [ ] Pa jalankan `supabase/migrate_01_registrasi.sql` di SQL Editor + buat bucket privat `evidence` (Storage) + tes daftar keluarga dummy
 - [ ] Verifikasi tetangga: request + jawaban 4 pilihan + komentar
 - [x] Voting komunitas: halaman Verifikasi (radius 2km + reputasi + anomali → ACTIVE/HELD) + dashboard petugas (prioritas, verifikasi lapangan, review HELD, validasi dokumen) — build verified, TINGGAL: Pa jalankan migrate_02 + tes 2 akun
+- [x] Pengawas petugas: foto wajib + quorum 2 petugas (kasus sensitif) + skor keandalan petugas (migrate_03) — build verified, TINGGAL: Pa jalankan migrate_03
 - [ ] Profil publik masked (#KD-xxxxx) + pemungutan suara + aggregasi RT
 - [ ] Dispute: file_dispute + resolve_dispute + alur investigasi
 - [ ] Audit log view (petugas/admin)

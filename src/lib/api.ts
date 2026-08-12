@@ -145,14 +145,34 @@ export async function fieldVerify(
   householdId: string,
   hasil: boolean,
   catatan?: string,
-) {
+  evidencePaths?: string[],
+  startedAt?: string,
+): Promise<string> {
   const { data, error } = await supabase!.rpc('field_verify', {
     p_household: householdId,
     p_hasil: hasil,
     p_catatan: catatan ?? null,
+    p_evidence_paths: evidencePaths ?? null,
+    p_started_at: startedAt ?? null,
   })
   if (error) throw error
-  return data
+  return data as string
+}
+
+export interface OfficerReliabilityItem {
+  officer_id: string
+  nama: string
+  verifikasi_lapangan: number
+  setuju_dgn_komunitas: number
+  verifikasi_cepat: number
+  skor: number
+  updated_at: string
+}
+
+export async function officerReliability(): Promise<OfficerReliabilityItem[]> {
+  const { data, error } = await supabase!.rpc('get_officer_reliability')
+  if (error) throw error
+  return (data ?? []) as OfficerReliabilityItem[]
 }
 
 export async function reviewHeldVote(verificationId: string, keputusan: 'ACTIVE' | 'DISCARDED') {

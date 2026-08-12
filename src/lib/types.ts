@@ -36,6 +36,18 @@ export interface PriorityItem {
   days_stale: number
   delta: number
   alasan: string
+  quorum_pending?: boolean
+  verifier1_nama?: string | null
+}
+
+export interface OfficerReliability {
+  officer_id: string
+  nama: string
+  verifikasi_lapangan: number
+  setuju_dgn_komunitas: number
+  verifikasi_cepat: number
+  skor: number
+  updated_at: string
 }
 
 export interface MapAggregate {

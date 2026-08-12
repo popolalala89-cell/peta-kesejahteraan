@@ -20,6 +20,18 @@
 - supabase/seed.sql (sedang disusun): schema + config + trigger + RLS + RPC.
 - Scaffold frontend Vite + React + TS (sedang disusun).
 
+## [1.5.0] — 2026-08-12
+
+### Added
+- `supabase/migrate_03_pengawas.sql` — "siapa yang mengawasi petugas" (3 lapis):
+  1. **Foto wajib**: `field_verify` v2 menolak persetujuan tanpa bukti foto (EVIDENCE_REQUIRED, kategori `verifikasi_lapangan` di bucket evidence)
+  2. **Quorum 2 petugas**: kasus sensitif (welfare ≤ 40 / ada suara HELD / laporan terbuka) butuh 2 petugas berbeda — kolom `verified_by` + `verified_2nd_by` di households, status `FIELD_VERIFICATION` di antara
+  3. **Skor keandalan petugas**: tabel `officer_reliability` (kesesuaian vs konsensus komunitas + deteksi verifikasi < 60 detik → flag FAST_VERIFY) + RPC `get_officer_reliability()` (admin only)
+- Panel "Keandalan petugas" di dashboard (khusus admin) — skor rendah + verifikasi cepat ditandai
+- Modal verifikasi lapangan (MD3): ambil foto via kamera, catatan, tombol setujui terkunci tanpa foto
+- `officer_dashboard_priorities` v2: keluarga yang menunggu petugas ke-2 tampil paling atas
+- `get_my_household` v2: warga bisa lihat siapa yang memverifikasi datanya (transparansi)
+
 ## [1.4.0] — 2026-08-12
 
 ### Added
