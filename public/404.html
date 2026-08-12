@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peta Kesejahteraan — Verifikasi Komunitas</title>
+    <script>
+      // GH Pages tidak punya fallback SPA: halaman yang tidak ditemukan
+      // (mis. refresh di /profil) dikembalikan ke sini. Kita redirect ke
+      // index.html sambil menyimpan path asli biar router lanjut di rute yang benar.
+      (function () {
+        var base = '/peta-kesejahteraan/'
+        var rest =
+          location.pathname.slice(base.length) + location.search + location.hash
+        if (rest) sessionStorage.setItem('pk_redirect', rest)
+        location.replace(base)
+      })()
+    </script>
+  </head>
+  <body style="background: #f3fbf4; font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0">
+    <p>Memuat Peta Kesejahteraan… 🌾</p>
+  </body>
+</html>
